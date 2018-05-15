@@ -23,16 +23,16 @@ class App extends Component {
     axios.get(this.state.baseURL+'/posts').then( results => { this.setState({ posts: results.data })})
   }
 
-  updatePost() {
-  
+  updatePost(id, text) {
+    axios.put(`${this.state.baseURL}/posts?id=${id}`,{text: text}).then( results => { this.setState({ posts: results.data })})
   }
 
-  deletePost() {
-
+  deletePost(id) {
+    axios.delete(`${this.state.baseURL}/posts?id=${id}`).then( results => { this.setState({ posts: results.data })})
   }
 
-  createPost() {
-
+  createPost( text ) {
+    axios.post(`${this.state.baseURL}/posts`,{text: text}).then( results => { this.setState({ posts: results.data })})
   }
 
   render() {
@@ -44,12 +44,17 @@ class App extends Component {
 
         <section className="App__content">
 
-          <Compose />
+          <Compose 
+            createPostFn={this.createPost}
+          />
 
           {posts.map( post => (
             <Post key={post.id} 
+              id={post.id}
               text={post.text}
               date={post.date}
+              updatePost={this.updatePost}
+              deletePostFn={this.deletePost}
             />
           ))}
           

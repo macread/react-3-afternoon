@@ -9,7 +9,7 @@ export default class Edit extends Component {
     super( props );
 
     this.state = {
-      text: props.text
+      text: this.props.text
     };
 
     this.updatePost = this.updatePost.bind( this );
@@ -20,10 +20,17 @@ export default class Edit extends Component {
   }
 
   updatePost() {
-
+    
+    const { text } = this.state;
+    const { id, updatePostFn, hideEdit } = this.props;
+    
+    updatePostFn(id, text);
+    hideEdit();
   }
 
   render() {
+console.log(this.props)
+
     // More destructuring!
     const { hideEdit } = this.props;
     const { text } = this.state;
