@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 import './App.css';
-
+import Post from '../components/Post/Post';
 import Header from './Header/Header';
 import Compose from './Compose/Compose';
 
@@ -10,7 +10,8 @@ class App extends Component {
     super();
 
     this.state = {
-      posts: []
+      posts: [],
+      baseURL: 'https://practiceapi.devmountain.com/api'
     };
 
     this.updatePost = this.updatePost.bind( this );
@@ -19,7 +20,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-
+    axios.get(this.state.baseURL+'/posts').then( results => { this.setState({ posts: results.data })})
   }
 
   updatePost() {
@@ -44,6 +45,13 @@ class App extends Component {
         <section className="App__content">
 
           <Compose />
+
+          {posts.map( post => (
+            <Post key={post.id} 
+              text={post.text}
+              date={post.date}
+            />
+          ))}
           
         </section>
       </div>
